@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: demo-team
+  namespace: argocd
+spec:
+  description: Demo team applications
+  sourceRepos:
+    - https://github.com/orenamir2/argocd-demo-gitops.git
+  destinations:
+    - namespace: demo-dev
+      server: https://kubernetes.default.svc
+    - namespace: demo-staging
+      server: https://kubernetes.default.svc
+    - namespace: demo-production
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

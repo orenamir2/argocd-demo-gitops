@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-demo-environments
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - list:
+        elements:
+          - environment: dev
+            namespace: demo-dev
+            valuesFile: dev-values.yaml
+          - environment: staging
+            namespace: demo-staging
+            valuesFile: staging-values.yaml
+          - environment: production
+            namespace: demo-production
+            valuesFile: production-values.yaml
+  template:
+    metadata:
+      name: argocd-demo-{{ .environment }}
+    spec:
+      project: demo-team
+      source:
+        repoURL: https://github.com/orenamir2/argocd-demo-gitops.git
+        targetRevision: main
+        path: charts/argocd-demo
+        helm:
+          releaseName: argocd-demo
+          valueFiles:
+            - ../../environments/{{ .valuesFile }}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ .namespace }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
