@@ -6,7 +6,7 @@ image:
 environment: production
 
 ingress:
-  enabled: true
+  enabled: false
   host: argocd-demo.example.com
 
 resources:

@@ -6,7 +6,7 @@ image:
 environment: staging
 
 ingress:
-  enabled: true
+  enabled: false
   host: argocd-demo-staging.local
 
 resources:

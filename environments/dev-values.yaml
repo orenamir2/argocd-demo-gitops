@@ -6,7 +6,7 @@ image:
 environment: dev
 
 ingress:
-  enabled: true
+  enabled: false
   host: argocd-demo-dev.local
 
 resources:
