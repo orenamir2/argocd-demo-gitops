@@ -5,4 +5,4 @@ metadata:
   labels:
     {{- include "argocd-demo.labels" . | nindent 4 }}
 data:
-  ENVIRONMENT: {{ .Values.environment | quote }}
+  APP_ENVIRONMENT: {{ .Values.environment | quote }}

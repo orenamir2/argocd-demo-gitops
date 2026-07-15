@@ -15,6 +15,12 @@ spec:
         {{- include "argocd-demo.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "argocd-demo.serviceAccountName" . }}
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- range . }}
+        - name: {{ . | quote }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: {{ include "argocd-demo.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
